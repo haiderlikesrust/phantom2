@@ -1,0 +1,36 @@
+{
+  "name": "phantom-v2-wallet-web",
+  "version": "2.0.0",
+  "description": "Phantom v2 Wallet Web Application",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@jup-ag/api": "^6.0.47",
+    "@pump-fun/pump-sdk": "^1.24.0",
+    "@solana/spl-token": "^0.4.14",
+    "@solana/web3.js": "^1.87.6",
+    "bip39": "^3.1.0",
+    "bn.js": "^5.2.2",
+    "bs58": "^5.0.0",
+    "ed25519-hd-key": "^1.3.0",
+    "next": "^14.0.0",
+    "qrcode.react": "^4.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/bn.js": "^5.2.0",
+    "@types/node": "^20.10.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.3.6",
+    "typescript": "^5.3.0"
+  }
+}
