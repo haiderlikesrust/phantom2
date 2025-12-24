@@ -87,28 +87,7 @@ export default function ConnectWallet() {
           </div>
         )}
 
-        {!showImport ? (
-          <div className="space-y-4">
-            <button
-              onClick={handleConnect}
-              className="w-full py-3 bg-pump-green hover:bg-pump-green/90 rounded-lg text-black font-bold transition-all"
-            >
-              Connect Existing Wallet
-            </button>
-            <button
-              onClick={handleCreateWallet}
-              className="w-full py-3 bg-pump-green/30 hover:bg-pump-green/40 border border-pump-green/30 rounded-lg text-black font-bold font-semibold transition-all"
-            >
-              Create New Wallet
-            </button>
-            <button
-              onClick={() => setShowImport(true)}
-              className="w-full py-3 text-pump-green hover:text-pump-green300 transition-colors"
-            >
-              Import from Seed Phrase
-            </button>
-          </div>
-        ) : showSeedPhrase ? (
+        {showSeedPhrase ? (
           <div className="space-y-4">
             <div className="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-4 mb-4">
               <p className="text-yellow-400 text-sm font-semibold mb-2">⚠️ Save Your Recovery Phrase</p>
@@ -142,8 +121,19 @@ export default function ConnectWallet() {
             >
               Continue
             </button>
+            <button
+              onClick={() => {
+                setShowSeedPhrase(false)
+                setNewSeedPhrase('')
+                setConfirmedSeedPhrase(false)
+                setError('')
+              }}
+              className="w-full py-3 text-pump-green hover:text-pump-green300 transition-colors"
+            >
+              Cancel
+            </button>
           </div>
-        ) : (
+        ) : showImport ? (
           <div className="space-y-4">
             <div>
               <label className="block text-sm text-gray-400 mb-2">Recovery Phrase (12 words)</label>
@@ -157,7 +147,7 @@ export default function ConnectWallet() {
             </div>
             <button
               onClick={handleImportWallet}
-              className="w-full py-3 bg-gradient-to-r from-pump-green to-pump-green hover:from-pump-green hover:to-pump-green800 rounded-lg text-white font-semibold transition-all"
+              className="w-full py-3 bg-pump-green hover:bg-pump-green/90 rounded-lg text-black font-bold transition-all"
             >
               Import Wallet
             </button>
@@ -170,6 +160,27 @@ export default function ConnectWallet() {
               className="w-full py-3 text-pump-green hover:text-pump-green300 transition-colors"
             >
               Cancel
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <button
+              onClick={handleConnect}
+              className="w-full py-3 bg-pump-green hover:bg-pump-green/90 rounded-lg text-black font-bold transition-all"
+            >
+              Connect Existing Wallet
+            </button>
+            <button
+              onClick={handleCreateWallet}
+              className="w-full py-3 bg-pump-green/30 hover:bg-pump-green/40 border border-pump-green/30 rounded-lg text-black font-bold font-semibold transition-all"
+            >
+              Create New Wallet
+            </button>
+            <button
+              onClick={() => setShowImport(true)}
+              className="w-full py-3 text-pump-green hover:text-pump-green300 transition-colors"
+            >
+              Import from Seed Phrase
             </button>
           </div>
         )}
