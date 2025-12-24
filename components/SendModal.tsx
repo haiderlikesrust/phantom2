@@ -54,7 +54,7 @@ export default function SendModal({ onClose }: SendModalProps) {
 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-      <div className="bg-phantom-card rounded-2xl p-6 max-w-md w-full border border-gray-800">
+      <div className="bg-pump-card rounded-2xl p-6 max-w-md w-full border border-gray-800">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-white">Send SOL</h2>
           <button
@@ -83,7 +83,7 @@ export default function SendModal({ onClose }: SendModalProps) {
               <label className="block text-sm text-gray-400">Recipient Address</label>
               <button
                 onClick={() => setShowAddressBook(!showAddressBook)}
-                className="text-purple-400 hover:text-purple-300 text-sm transition-colors"
+                className="text-pump-green hover:text-pump-green300 text-sm transition-colors"
               >
                 {showAddressBook ? 'Hide' : 'Address Book'}
               </button>
@@ -101,7 +101,7 @@ export default function SendModal({ onClose }: SendModalProps) {
               value={recipient}
               onChange={(e) => setRecipient(e.target.value)}
               placeholder="Enter Solana address"
-              className="w-full px-4 py-3 bg-phantom-dark border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500"
+              className="w-full px-4 py-3 bg-pump-dark border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-pump-green"
             />
           </div>
           <div>
@@ -113,7 +113,7 @@ export default function SendModal({ onClose }: SendModalProps) {
               placeholder="0.00"
               step="0.0001"
               max={balance}
-              className="w-full px-4 py-3 bg-phantom-dark border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500"
+              className="w-full px-4 py-3 bg-pump-dark border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-pump-green"
             />
             <p className="text-xs text-gray-500 mt-1">Available: {balance.toFixed(4)} SOL</p>
           </div>
@@ -121,13 +121,13 @@ export default function SendModal({ onClose }: SendModalProps) {
             <button
               onClick={handleSend}
               disabled={loading}
-              className="flex-1 py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 rounded-lg text-white font-semibold transition-all disabled:opacity-50"
+              className="flex-1 py-3 bg-gradient-to-r from-pump-green to-pump-green hover:from-pump-green hover:to-pump-green800 rounded-lg text-white font-semibold transition-all disabled:opacity-50"
             >
               {loading ? 'Sending...' : 'Send'}
             </button>
             <button
               onClick={onClose}
-              className="px-6 py-3 bg-phantom-dark hover:bg-gray-800 border border-gray-700 rounded-lg text-white transition-colors"
+              className="px-6 py-3 bg-pump-dark hover:bg-gray-800 border border-gray-700 rounded-lg text-white transition-colors"
             >
               Cancel
             </button>
@@ -137,4 +137,8 @@ export default function SendModal({ onClose }: SendModalProps) {
     </div>
   )
 }
+
+
+
+
 

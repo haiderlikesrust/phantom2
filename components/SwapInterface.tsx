@@ -356,7 +356,7 @@ export default function SwapInterface() {
   return (
     <div className="container mx-auto px-4 py-6">
       {/* You Pay Section */}
-      <div className="bg-phantom-card rounded-xl p-4 mb-3 border border-gray-800">
+      <div className="bg-pump-card rounded-xl p-4 mb-3 border border-gray-800">
         <div className="flex items-center justify-between mb-2">
           <span className="text-gray-400 text-sm">You Pay</span>
         </div>
@@ -424,16 +424,16 @@ export default function SwapInterface() {
             setPayAmount(receiveAmount)
             setReceiveAmount(temp)
           }}
-          className="w-12 h-12 bg-purple-600 hover:bg-purple-700 rounded-full flex items-center justify-center transition-colors shadow-lg"
+          className="w-12 h-12 bg-pump-green hover:bg-pump-green/90 rounded-full flex items-center justify-center transition-colors shadow-lg"
         >
-          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
           </svg>
         </button>
       </div>
 
       {/* You Receive Section */}
-      <div className="bg-phantom-card rounded-xl p-4 mb-6 border border-gray-800">
+      <div className="bg-pump-card rounded-xl p-4 mb-6 border border-gray-800">
         <div className="flex items-center justify-between mb-2">
           <span className="text-gray-400 text-sm">You Receive</span>
         </div>
@@ -450,7 +450,7 @@ export default function SwapInterface() {
           >
             {selectedToken ? (
               <>
-                <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                <div className="w-6 h-6 bg-pump-green rounded-full flex items-center justify-center text-black font-bold text-xs font-bold">
                   {selectedToken.symbol[0]}
                 </div>
                 <span className="text-white font-medium">{selectedToken.symbol}</span>
@@ -484,7 +484,7 @@ export default function SwapInterface() {
       <button
         onClick={handleSwap}
         disabled={swapping || !selectedToken || !payAmount || parseFloat(payAmount) <= 0}
-        className="w-full py-4 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 rounded-xl text-white font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full py-4 bg-gradient-to-r from-pump-green to-pump-green hover:from-pump-green hover:to-purple-800 rounded-xl text-white font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {swapping ? 'Swapping...' : selectedToken ? `Swap to ${selectedToken.symbol}` : 'Select Token to Swap'}
       </button>
@@ -499,7 +499,7 @@ export default function SwapInterface() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search tokens..."
-              className="px-3 py-2 bg-phantom-dark border border-gray-700 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-purple-500 w-48"
+              className="px-3 py-2 bg-pump-dark border border-gray-700 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-pump-green w-48"
             />
             <div className="flex items-center space-x-2">
               <button className="px-3 py-1 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm text-gray-300 flex items-center space-x-1">
@@ -540,12 +540,12 @@ export default function SwapInterface() {
                   setSelectedToken(token)
                   setShowTokenList(false)
                 }}
-                className="bg-phantom-card hover:bg-gray-800 rounded-lg p-4 border border-gray-800 cursor-pointer transition-colors"
+                className="bg-pump-card hover:bg-gray-800 rounded-lg p-4 border border-gray-800 cursor-pointer transition-colors"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <div className="text-gray-500 text-sm w-8">#{index + 1}</div>
-                    <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                    <div className="w-10 h-10 bg-pump-green rounded-full flex items-center justify-center text-black font-bold font-bold">
                       {token.symbol[0] || '?'}
                     </div>
                     <div>
@@ -575,7 +575,7 @@ export default function SwapInterface() {
       {/* Token Selection Modal */}
       {showTokenList && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-          <div className="bg-phantom-card rounded-2xl p-6 max-w-md w-full border border-gray-800 max-h-[80vh] overflow-y-auto">
+          <div className="bg-pump-card rounded-2xl p-6 max-w-md w-full border border-gray-800 max-h-[80vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-2xl font-bold text-white">Select Token</h2>
               <button
@@ -597,12 +597,12 @@ export default function SwapInterface() {
                   value={contractAddress}
                   onChange={(e) => setContractAddress(e.target.value)}
                   placeholder="Enter contract address (CA)"
-                  className="flex-1 px-3 py-2 bg-phantom-dark border border-gray-700 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-purple-500"
+                  className="flex-1 px-3 py-2 bg-pump-dark border border-gray-700 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-pump-green"
                 />
                 <button
                   onClick={handleLoadTokenFromCA}
                   disabled={loadingTokenInfo || !contractAddress.trim()}
-                  className="px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg text-white text-sm font-medium transition-colors"
+                  className="px-4 py-2 bg-pump-green hover:bg-pump-green disabled:opacity-50 disabled:cursor-not-allowed rounded-lg text-black font-bold text-sm font-medium transition-colors"
                 >
                   {loadingTokenInfo ? 'Loading...' : 'Load'}
                 </button>
@@ -619,7 +619,7 @@ export default function SwapInterface() {
                   }}
                   className="flex items-center space-x-3 p-3 hover:bg-gray-800 rounded-lg cursor-pointer transition-colors"
                 >
-                  <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                  <div className="w-10 h-10 bg-pump-green rounded-full flex items-center justify-center text-black font-bold font-bold">
                     {token.symbol[0] || '?'}
                   </div>
                   <div className="flex-1">
@@ -642,4 +642,8 @@ export default function SwapInterface() {
     </div>
   )
 }
+
+
+
+
 

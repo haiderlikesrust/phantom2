@@ -6,8 +6,8 @@ import { WalletProvider } from '@/contexts/WalletContext'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Phantom v2 Wallet',
-  description: 'Phantom v2 Wallet Web Application',
+  title: 'PumpPocket',
+  description: 'PumpPocket - Solana Wallet with Token Deployment',
 }
 
 export default function RootLayout({
@@ -25,4 +25,8 @@ export default function RootLayout({
     </html>
   )
 }
+
+
+
+
 

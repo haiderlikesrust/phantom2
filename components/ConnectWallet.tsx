@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useWallet } from '@/contexts/WalletContext'
-import SolanaLogo from './SolanaLogo'
+import WalletLogo from './WalletLogo'
 
 export default function ConnectWallet() {
   const { connect, createWallet, importFromSeedPhrase } = useWallet()
@@ -72,12 +72,12 @@ export default function ConnectWallet() {
 
   return (
     <div className="max-w-md mx-auto mt-20">
-      <div className="bg-phantom-card rounded-2xl p-8 shadow-2xl border border-gray-800">
+      <div className="bg-pump-card rounded-2xl p-8 shadow-2xl border border-gray-800">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center mx-auto mb-4">
-              <SolanaLogo size={80} />
+              <WalletLogo size={80} />
             </div>
-            <h2 className="text-3xl font-bold text-white mb-2">Welcome to Phantom</h2>
+            <h2 className="text-3xl font-bold text-white mb-2">Welcome to PumpPocket</h2>
             <p className="text-gray-400">Connect your Solana wallet to get started</p>
           </div>
 
@@ -91,19 +91,19 @@ export default function ConnectWallet() {
           <div className="space-y-4">
             <button
               onClick={handleConnect}
-              className="w-full py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 rounded-lg text-white font-semibold transition-all"
+              className="w-full py-3 bg-pump-green hover:bg-pump-green/90 rounded-lg text-black font-bold transition-all"
             >
               Connect Existing Wallet
             </button>
             <button
               onClick={handleCreateWallet}
-              className="w-full py-3 bg-purple-900/30 hover:bg-purple-900/40 border border-purple-700/30 rounded-lg text-white font-semibold transition-all"
+              className="w-full py-3 bg-pump-green/30 hover:bg-pump-green/40 border border-pump-green/30 rounded-lg text-black font-bold font-semibold transition-all"
             >
               Create New Wallet
             </button>
             <button
               onClick={() => setShowImport(true)}
-              className="w-full py-3 text-purple-400 hover:text-purple-300 transition-colors"
+              className="w-full py-3 text-pump-green hover:text-pump-green300 transition-colors"
             >
               Import from Seed Phrase
             </button>
@@ -116,7 +116,7 @@ export default function ConnectWallet() {
                 Write down these 12 words in order and keep them safe. You'll need them to recover your wallet.
               </p>
             </div>
-            <div className="bg-phantom-dark rounded-lg p-4 border border-gray-700">
+            <div className="bg-pump-dark rounded-lg p-4 border border-gray-700">
               <div className="grid grid-cols-3 gap-2">
                 {newSeedPhrase.split(' ').map((word, index) => (
                   <div key={index} className="flex items-center space-x-2">
@@ -131,14 +131,14 @@ export default function ConnectWallet() {
                 type="checkbox"
                 checked={confirmedSeedPhrase}
                 onChange={(e) => setConfirmedSeedPhrase(e.target.checked)}
-                className="w-4 h-4 text-purple-600 bg-phantom-dark border-gray-700 rounded focus:ring-purple-500"
+                className="w-4 h-4 text-pump-green bg-pump-dark border-gray-700 rounded focus:ring-pump-green"
               />
               <span className="text-gray-300 text-sm">I have saved my recovery phrase</span>
             </label>
             <button
               onClick={handleConfirmSeedPhrase}
               disabled={!confirmedSeedPhrase}
-              className="w-full py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 rounded-lg text-white font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-3 bg-gradient-to-r from-pump-green to-pump-green hover:from-pump-green hover:to-pump-green800 rounded-lg text-white font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Continue
             </button>
@@ -152,12 +152,12 @@ export default function ConnectWallet() {
                 onChange={(e) => setSeedPhrase(e.target.value)}
                 placeholder="Enter your 12-word recovery phrase"
                 rows={3}
-                className="w-full px-4 py-3 bg-phantom-dark border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 resize-none"
+                className="w-full px-4 py-3 bg-pump-dark border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-pump-green resize-none"
               />
             </div>
             <button
               onClick={handleImportWallet}
-              className="w-full py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 rounded-lg text-white font-semibold transition-all"
+              className="w-full py-3 bg-gradient-to-r from-pump-green to-pump-green hover:from-pump-green hover:to-pump-green800 rounded-lg text-white font-semibold transition-all"
             >
               Import Wallet
             </button>
@@ -167,7 +167,7 @@ export default function ConnectWallet() {
                 setSeedPhrase('')
                 setError('')
               }}
-              className="w-full py-3 text-purple-400 hover:text-purple-300 transition-colors"
+              className="w-full py-3 text-pump-green hover:text-pump-green300 transition-colors"
             >
               Cancel
             </button>
@@ -177,4 +177,8 @@ export default function ConnectWallet() {
     </div>
   )
 }
+
+
+
+
 

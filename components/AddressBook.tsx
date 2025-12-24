@@ -83,7 +83,7 @@ export default function AddressBook({ onSelect }: AddressBookProps) {
         <h2 className="text-xl font-bold text-white">Address Book</h2>
         <button
           onClick={() => setShowAddModal(true)}
-          className="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-white text-sm font-medium transition-colors"
+          className="px-4 py-2 bg-pump-green hover:bg-pump-green rounded-lg text-black font-bold text-sm font-medium transition-colors"
         >
           + Add Address
         </button>
@@ -99,7 +99,7 @@ export default function AddressBook({ onSelect }: AddressBookProps) {
           {addresses.map((addr) => (
             <div
               key={addr.id}
-              className="bg-phantom-card rounded-lg p-4 border border-gray-800 flex items-center justify-between"
+              className="bg-pump-card rounded-lg p-4 border border-gray-800 flex items-center justify-between"
             >
               <div className="flex-1">
                 <div className="text-white font-medium">{addr.name}</div>
@@ -111,7 +111,7 @@ export default function AddressBook({ onSelect }: AddressBookProps) {
                 {onSelect && (
                   <button
                     onClick={() => handleSelect(addr.address)}
-                    className="px-3 py-1 bg-purple-600 hover:bg-purple-700 rounded text-white text-sm transition-colors"
+                    className="px-3 py-1 bg-pump-green hover:bg-pump-green rounded text-black font-bold text-sm transition-colors"
                   >
                     Use
                   </button>
@@ -137,7 +137,7 @@ export default function AddressBook({ onSelect }: AddressBookProps) {
       {/* Add Address Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-          <div className="bg-phantom-card rounded-2xl p-6 max-w-md w-full border border-gray-800">
+          <div className="bg-pump-card rounded-2xl p-6 max-w-md w-full border border-gray-800">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold text-white">Add Address</h2>
               <button
@@ -167,7 +167,7 @@ export default function AddressBook({ onSelect }: AddressBookProps) {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g., My Wallet, Exchange"
-                  className="w-full px-4 py-3 bg-phantom-dark border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500"
+                  className="w-full px-4 py-3 bg-pump-dark border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-pump-green"
                 />
               </div>
               <div>
@@ -177,13 +177,13 @@ export default function AddressBook({ onSelect }: AddressBookProps) {
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                   placeholder="Enter Solana address"
-                  className="w-full px-4 py-3 bg-phantom-dark border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 font-mono text-sm"
+                  className="w-full px-4 py-3 bg-pump-dark border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-pump-green font-mono text-sm"
                 />
               </div>
               <div className="flex space-x-3">
                 <button
                   onClick={handleAdd}
-                  className="flex-1 py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 rounded-lg text-white font-semibold transition-all"
+                  className="flex-1 py-3 bg-gradient-to-r from-pump-green to-pump-green hover:from-pump-green hover:to-purple-800 rounded-lg text-white font-semibold transition-all"
                 >
                   Add
                 </button>
@@ -194,7 +194,7 @@ export default function AddressBook({ onSelect }: AddressBookProps) {
                     setAddress('')
                     setError('')
                   }}
-                  className="px-6 py-3 bg-phantom-dark hover:bg-gray-800 border border-gray-700 rounded-lg text-white transition-colors"
+                  className="px-6 py-3 bg-pump-dark hover:bg-gray-800 border border-gray-700 rounded-lg text-white transition-colors"
                 >
                   Cancel
                 </button>
@@ -206,4 +206,8 @@ export default function AddressBook({ onSelect }: AddressBookProps) {
     </div>
   )
 }
+
+
+
+
 

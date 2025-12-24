@@ -24,7 +24,7 @@ export default function ReceiveModal({ onClose }: ReceiveModalProps) {
 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-      <div className="bg-phantom-card rounded-2xl p-6 max-w-md w-full border border-gray-800">
+      <div className="bg-pump-card rounded-2xl p-6 max-w-md w-full border border-gray-800">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-white">Receive SOL</h2>
           <button
@@ -48,7 +48,7 @@ export default function ReceiveModal({ onClose }: ReceiveModalProps) {
             </div>
           </div>
 
-          <div className="bg-phantom-dark rounded-lg p-4 border border-gray-700">
+          <div className="bg-pump-dark rounded-lg p-4 border border-gray-700">
             <p className="text-sm text-gray-400 mb-2">Your Wallet Address</p>
             <p className="text-white break-all font-mono text-sm">
               {walletAddress}
@@ -56,13 +56,13 @@ export default function ReceiveModal({ onClose }: ReceiveModalProps) {
           </div>
           <button
             onClick={handleCopy}
-            className="w-full py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 rounded-lg text-white font-semibold transition-all"
+            className="w-full py-3 bg-gradient-to-r from-pump-green to-pump-green hover:from-pump-green hover:to-pump-green800 rounded-lg text-white font-semibold transition-all"
           >
             {copied ? '✓ Copied!' : 'Copy Address'}
           </button>
           <button
             onClick={onClose}
-            className="w-full py-3 bg-phantom-dark hover:bg-gray-800 border border-gray-700 rounded-lg text-white transition-colors"
+            className="w-full py-3 bg-pump-dark hover:bg-gray-800 border border-gray-700 rounded-lg text-white transition-colors"
           >
             Close
           </button>
@@ -71,4 +71,8 @@ export default function ReceiveModal({ onClose }: ReceiveModalProps) {
     </div>
   )
 }
+
+
+
+
 

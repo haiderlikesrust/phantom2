@@ -10,7 +10,7 @@ export default function HistoryPage() {
 
   if (!connected) {
     return (
-      <main className="min-h-screen bg-phantom-dark pb-20">
+      <main className="min-h-screen bg-pump-dark pb-20">
         <Header />
         <div className="container mx-auto px-4 py-8">
           <div className="text-center text-gray-400">Please connect your wallet</div>
@@ -21,7 +21,7 @@ export default function HistoryPage() {
   }
 
   return (
-    <main className="min-h-screen bg-phantom-dark pb-20">
+    <main className="min-h-screen bg-pump-dark pb-20">
       <Header />
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-white mb-6">Transaction History</h1>
@@ -31,4 +31,8 @@ export default function HistoryPage() {
     </main>
   )
 }
+
+
+
+
 

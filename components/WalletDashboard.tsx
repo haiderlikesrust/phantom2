@@ -7,6 +7,9 @@ import SendModal from './SendModal'
 import SolanaLogo from './SolanaLogo'
 import ReceiveModal from './ReceiveModal'
 import BottomNav from './BottomNav'
+import BatchSendModal from './BatchSendModal'
+import TokenWatchlist from './TokenWatchlist'
+import PriceAlerts from './PriceAlerts'
 
 export default function WalletDashboard() {
   const { publicKey, balance, refreshBalance, tokens, connection } = useWallet()
@@ -17,6 +20,7 @@ export default function WalletDashboard() {
   }, [balance, publicKey, connection])
   const [showSend, setShowSend] = useState(false)
   const [showReceive, setShowReceive] = useState(false)
+  const [showBatchSend, setShowBatchSend] = useState(false)
   const [usdValue, setUsdValue] = useState(0)
   const [priceChange, setPriceChange] = useState({ value: 0, percent: 0 })
 
@@ -55,19 +59,14 @@ export default function WalletDashboard() {
     return () => clearInterval(interval)
   }, [balance])
 
-  // Refresh balance on mount and when publicKey changes
-  useEffect(() => {
-    if (publicKey) {
-      refreshBalance()
-    }
-  }, [publicKey, refreshBalance])
+  // Balance is automatically refreshed by WalletContext, no need to duplicate here
 
   const formatAddress = (address: string) => {
     return `${address.slice(0, 4)}...${address.slice(-4)}`
   }
 
   return (
-    <div className="min-h-screen bg-phantom-dark pb-20">
+    <div className="min-h-screen bg-pump-dark pb-20">
       {/* Solana Address Bar */}
       <div className="bg-black border-b border-gray-800">
         <div className="container mx-auto px-4 py-3">
@@ -110,23 +109,15 @@ export default function WalletDashboard() {
               <span className="text-sm">${priceChange.value.toFixed(2)}</span>
               <span className="text-sm">({priceChange.percent.toFixed(2)}%)</span>
             </div>
-            <div className="mt-3 space-x-2">
+            <div className="mt-3">
               <button
                 onClick={async () => {
                   console.log('Manual refresh clicked')
                   await refreshBalance()
                 }}
-                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-white text-sm font-medium transition-colors"
+                className="px-4 py-2 bg-pump-green hover:bg-pump-green/90 rounded-lg text-black text-sm font-bold transition-colors"
               >
                 Refresh Balance
-              </button>
-              <button
-                onClick={() => {
-                  console.log('Current state:', { balance, publicKey: publicKey?.toBase58(), connection: !!connection })
-                }}
-                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-white text-sm font-medium transition-colors"
-              >
-                Debug Info
               </button>
             </div>
           </div>
@@ -136,7 +127,7 @@ export default function WalletDashboard() {
         <div className="grid grid-cols-4 gap-3 mb-6">
           <button
             onClick={() => setShowReceive(true)}
-            className="bg-phantom-card hover:bg-gray-800 rounded-xl p-4 flex flex-col items-center space-y-2 transition-colors border border-gray-800"
+            className="bg-pump-card hover:bg-gray-800 rounded-xl p-4 flex flex-col items-center space-y-2 transition-colors border border-gray-800"
           >
             <div className="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center">
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -147,7 +138,7 @@ export default function WalletDashboard() {
           </button>
           <button
             onClick={() => setShowSend(true)}
-            className="bg-phantom-card hover:bg-gray-800 rounded-xl p-4 flex flex-col items-center space-y-2 transition-colors border border-gray-800"
+            className="bg-pump-card hover:bg-gray-800 rounded-xl p-4 flex flex-col items-center space-y-2 transition-colors border border-gray-800"
           >
             <div className="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center">
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -157,30 +148,44 @@ export default function WalletDashboard() {
             <span className="text-white text-sm font-medium">Send</span>
           </button>
           <Link
-            href="/swap"
-            className="bg-phantom-card hover:bg-gray-800 rounded-xl p-4 flex flex-col items-center space-y-2 transition-colors border border-gray-800"
+            href="/deploy"
+            className="bg-pump-card hover:bg-gray-800 rounded-xl p-4 flex flex-col items-center space-y-2 transition-colors border border-gray-800"
           >
             <div className="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center">
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
               </svg>
             </div>
-            <span className="text-white text-sm font-medium">Swap</span>
+            <span className="text-white text-sm font-medium">Deploy</span>
           </Link>
-          <button className="bg-phantom-card hover:bg-gray-800 rounded-xl p-4 flex flex-col items-center space-y-2 transition-colors border border-gray-800">
+          <button
+            onClick={() => setShowBatchSend(true)}
+            className="bg-pump-card hover:bg-gray-800 rounded-xl p-4 flex flex-col items-center space-y-2 transition-colors border border-gray-800"
+            title="Batch Send"
+          >
             <div className="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center">
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
             </div>
-            <span className="text-white text-sm font-medium">Buy</span>
+            <span className="text-white text-sm font-medium">Batch</span>
           </button>
         </div>
 
+        {/* Token Watchlist */}
+        <div className="mb-6">
+          <TokenWatchlist />
+        </div>
+
+        {/* Price Alerts */}
+        <div className="mb-6">
+          <PriceAlerts />
+        </div>
+
         {/* Tokens Section */}
-        <div className="bg-phantom-card rounded-xl border border-gray-800">
+        <div className="bg-pump-card rounded-xl border border-gray-800">
           <div className="flex border-b border-gray-800">
-            <button className="flex-1 py-4 px-4 text-white font-medium border-b-2 border-purple-500">
+            <button className="flex-1 py-4 px-4 text-white font-medium border-b-2 border-pump-green">
               Tokens
             </button>
             <button className="flex-1 py-4 px-4 text-gray-400 font-medium hover:text-white transition-colors">
@@ -214,7 +219,7 @@ export default function WalletDashboard() {
             {tokens.length > 0 && tokens.map((token) => (
               <div key={token.mint} className="flex items-center justify-between py-3 border-t border-gray-800">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                  <div className="w-10 h-10 bg-pump-green rounded-full flex items-center justify-center text-black font-bold font-bold">
                     {token.symbol[0] || '?'}
                   </div>
                   <div>
@@ -236,9 +241,14 @@ export default function WalletDashboard() {
       {/* Modals */}
       {showSend && <SendModal onClose={() => setShowSend(false)} />}
       {showReceive && <ReceiveModal onClose={() => setShowReceive(false)} />}
+      {showBatchSend && <BatchSendModal onClose={() => setShowBatchSend(false)} />}
 
       {/* Bottom Navigation */}
       <BottomNav />
     </div>
   )
 }
+
+
+
+

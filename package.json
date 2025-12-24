@@ -1,7 +1,7 @@
 {
-  "name": "phantom-v2-wallet-web",
+  "name": "pumppocket",
   "version": "2.0.0",
-  "description": "Phantom v2 Wallet Web Application",
+  "description": "PumpPocket - Solana Wallet with Token Deployment",
   "private": true,
   "scripts": {
     "dev": "next dev",

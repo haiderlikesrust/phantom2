@@ -8,11 +8,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        phantom: {
-          purple: '#AB9FF2',
-          dark: '#0D0D0D',
+        pump: {
+          green: '#00FF88', // Bright mint green from pump.fun
+          dark: '#000000',
           darker: '#000000',
-          bg: '#0D0D0D',
+          bg: '#000000',
           card: '#1A1A1A',
         },
       },

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useWallet } from '@/contexts/WalletContext'
 import SettingsModal from './SettingsModal'
 import NetworkSwitcher from './NetworkSwitcher'
-import SolanaLogo from './SolanaLogo'
+import WalletLogo from './WalletLogo'
 
 export default function Header() {
   const { connected } = useWallet()
@@ -14,12 +14,12 @@ export default function Header() {
 
   return (
     <>
-      <header className="bg-phantom-dark border-b border-gray-800">
+      <header className="bg-pump-dark border-b border-gray-800">
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <SolanaLogo size={32} />
-              <span className="text-white text-sm font-medium">Phantom</span>
+              <WalletLogo size={32} />
+              <span className="text-white text-sm font-medium">PumpPocket</span>
               <button className="text-gray-400 hover:text-white">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -45,4 +45,8 @@ export default function Header() {
     </>
   )
 }
+
+
+
+
 

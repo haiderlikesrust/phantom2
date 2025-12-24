@@ -69,7 +69,7 @@ export default function TransactionHistory({ showTitle = true }: TransactionHist
   ].sort((a, b) => b.timestamp - a.timestamp)
 
   return (
-    <div className="bg-phantom-card rounded-2xl p-6 border border-gray-800">
+    <div className="bg-pump-card rounded-2xl p-6 border border-gray-800">
       {showTitle && <h2 className="text-2xl font-bold text-white mb-4">Transaction History</h2>}
       {loading && (
         <p className="text-gray-400 text-center py-4">Loading transactions...</p>
@@ -81,7 +81,7 @@ export default function TransactionHistory({ showTitle = true }: TransactionHist
           {allTransactions.map((tx) => (
             <div
               key={tx.signature}
-              className="bg-phantom-dark rounded-lg p-4 border border-gray-800 hover:bg-gray-800 transition-colors cursor-pointer"
+              className="bg-pump-dark rounded-lg p-4 border border-gray-800 hover:bg-gray-800 transition-colors cursor-pointer"
               onClick={() => setSelectedTx(tx.signature)}
             >
               <div className="flex items-center justify-between">
@@ -110,7 +110,7 @@ export default function TransactionHistory({ showTitle = true }: TransactionHist
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
-                  className="text-purple-400 hover:text-purple-300 text-sm"
+                  className="text-pump-green hover:text-purple-300 text-sm"
                 >
                   View →
                 </a>
@@ -129,4 +129,8 @@ export default function TransactionHistory({ showTitle = true }: TransactionHist
     </div>
   )
 }
+
+
+
+
 

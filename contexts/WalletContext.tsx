@@ -72,38 +72,40 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [transactions, setTransactions] = useState<TransactionInfo[]>([])
   const [tokens, setTokens] = useState<TokenBalance[]>([])
   const [isInitializing, setIsInitializing] = useState(true)
+  const fetchingBalanceRef = React.useRef(false)
+  const fetchingTokensRef = React.useRef(false)
 
   const refreshBalance = useCallback(async () => {
-    if (!publicKey) {
-      console.log('Cannot fetch balance - no public key')
+    if (!publicKey || fetchingBalanceRef.current) {
       return
     }
 
-    // Use Helius RPC
+    fetchingBalanceRef.current = true
     const rpcUrl = getRpcUrl(network)
     
     try {
-      console.log('Fetching balance for:', publicKey.toBase58(), 'on network:', network)
-      console.log('Using RPC Endpoint:', rpcUrl)
       const rpcConnection = new Connection(rpcUrl, 'confirmed')
       const balance = await rpcConnection.getBalance(publicKey, 'confirmed')
       const solBalance = balance / LAMPORTS_PER_SOL
-      console.log('Balance fetched successfully:', solBalance, 'SOL (', balance, 'lamports)')
       setBalance(solBalance)
-      setConnection(rpcConnection) // Update connection to working one
+      setConnection(rpcConnection)
     } catch (error: any) {
         console.error('Error fetching balance:', error)
-        console.error('Error details:', error.message, error.stack)
-        // Retry with Helius (should always work if API key is valid)
-        console.error('Helius RPC failed, this should not happen if API key is valid')
+      } finally {
+        fetchingBalanceRef.current = false
       }
-  }, [publicKey, connection, network])
+  }, [publicKey, network])
 
   const refreshTokens = useCallback(async () => {
-    if (!publicKey || !connection) return
+    if (!publicKey || fetchingTokensRef.current) return
 
+    fetchingTokensRef.current = true
     try {
-      const tokenAccounts = await connection.getParsedTokenAccountsByOwner(publicKey, {
+      // Use current connection or create new one
+      const rpcUrl = getRpcUrl(network)
+      const rpcConnection = connection || new Connection(rpcUrl, 'confirmed')
+      
+      const tokenAccounts = await rpcConnection.getParsedTokenAccountsByOwner(publicKey, {
         programId: TOKEN_PROGRAM_ID,
       })
 
@@ -144,8 +146,10 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       console.error('Error fetching tokens:', error)
       setTokens([])
+    } finally {
+      fetchingTokensRef.current = false
     }
-  }, [publicKey, connection])
+  }, [publicKey, network, connection])
 
   const switchNetwork = useCallback((newNetwork: Network) => {
     setNetwork(newNetwork)
@@ -159,18 +163,35 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   }, [connected, publicKey])
 
   useEffect(() => {
-    if (connected && publicKey && connection) {
-      console.log('Wallet connected, fetching balance and tokens...')
-      refreshBalance()
-      refreshTokens()
-      const interval = setInterval(() => {
-        console.log('Auto-refreshing balance (every 5 minutes)...')
+    if (!connected || !publicKey) return
+
+    let isMounted = true
+    let intervalId: NodeJS.Timeout | null = null
+
+    // Initial fetch
+    const initialFetch = async () => {
+      if (isMounted) {
+        await refreshBalance()
+        await refreshTokens()
+      }
+    }
+    initialFetch()
+
+    // Set up interval for auto-refresh (every 5 minutes)
+    intervalId = setInterval(() => {
+      if (isMounted) {
         refreshBalance()
         refreshTokens()
-      }, 300000) // Refresh every 5 minutes (300000 ms)
-      return () => clearInterval(interval)
+      }
+    }, 300000) // 5 minutes
+
+    return () => {
+      isMounted = false
+      if (intervalId) {
+        clearInterval(intervalId)
+      }
     }
-  }, [connected, publicKey, connection, refreshBalance, refreshTokens])
+  }, [connected, publicKey, network]) // Include network to refetch when network changes
 
   const createWallet = useCallback(() => {
     // Generate 12-word mnemonic
@@ -208,7 +229,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
       setConnected(true)
       
       // Store seed phrase
-      localStorage.setItem('phantom_wallet_seed_phrase', seedPhrase.trim())
+      localStorage.setItem('pumppocket_seed_phrase', seedPhrase.trim())
     } catch (error) {
       console.error('Error importing from seed phrase:', error)
       throw error
@@ -222,10 +243,10 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
       if (seedPhrase) {
         // Import from seed phrase
         walletKeypair = deriveKeypairFromSeed(seedPhrase.trim())
-        localStorage.setItem('phantom_wallet_seed_phrase', seedPhrase.trim())
+        localStorage.setItem('pumppocket_seed_phrase', seedPhrase.trim())
       } else {
         // Check if wallet exists in localStorage
-        const storedSeedPhrase = localStorage.getItem('phantom_wallet_seed_phrase')
+        const storedSeedPhrase = localStorage.getItem('pumppocket_seed_phrase')
         if (storedSeedPhrase) {
           walletKeypair = deriveKeypairFromSeed(storedSeedPhrase)
         } else {
@@ -238,22 +259,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
       setPublicKey(walletKeypair.publicKey)
       setConnected(true)
       
-      // Immediately fetch balance after connection
-      // Use setTimeout to ensure state is updated first
-      setTimeout(async () => {
-        try {
-          console.log('Fetching balance immediately after connect...')
-          const rpcUrl = getRpcUrl(network)
-          const currentConnection = connection || new Connection(rpcUrl, 'confirmed')
-          const balance = await currentConnection.getBalance(walletKeypair.publicKey, 'confirmed')
-          const solBalance = balance / LAMPORTS_PER_SOL
-          console.log('Initial balance fetched:', solBalance, 'SOL')
-          setBalance(solBalance)
-        } catch (error: any) {
-          console.error('Error fetching balance on connect:', error.message)
-          console.error('Make sure Helius API key is set correctly')
-        }
-      }, 500)
+      // Balance will be fetched by the useEffect hook above
     } catch (error) {
       console.error('Error connecting wallet:', error)
       throw error
@@ -273,14 +279,14 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const autoConnect = async () => {
       try {
-        const storedSeedPhrase = localStorage.getItem('phantom_wallet_seed_phrase')
+        const storedSeedPhrase = localStorage.getItem('pumppocket_seed_phrase')
         if (storedSeedPhrase) {
           await connect()
         }
       } catch (error) {
         console.error('Auto-connect failed:', error)
         // If auto-connect fails, clear the invalid seed phrase
-        localStorage.removeItem('phantom_wallet_seed_phrase')
+        localStorage.removeItem('pumppocket_seed_phrase')
       } finally {
         setIsInitializing(false)
       }
@@ -364,4 +370,7 @@ export function useWallet() {
   }
   return context
 }
+
+
+
 

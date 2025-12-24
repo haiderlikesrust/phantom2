@@ -4,7 +4,7 @@ import { useWallet } from '@/contexts/WalletContext'
 import WalletDashboard from '@/components/WalletDashboard'
 import ConnectWallet from '@/components/ConnectWallet'
 import Header from '@/components/Header'
-import SolanaLogo from '@/components/SolanaLogo'
+import WalletLogo from '@/components/WalletLogo'
 
 export default function Home() {
   const { connected, publicKey, isInitializing } = useWallet()
@@ -12,10 +12,10 @@ export default function Home() {
   // Show loading state while checking for existing wallet
   if (isInitializing) {
     return (
-      <main className="min-h-screen bg-phantom-dark flex items-center justify-center">
+      <main className="min-h-screen bg-pump-dark flex items-center justify-center">
         <div className="text-center">
           <div className="flex items-center justify-center mx-auto mb-4 animate-pulse">
-            <SolanaLogo size={64} />
+            <WalletLogo size={64} />
           </div>
           <p className="text-gray-400">Loading wallet...</p>
         </div>
@@ -24,7 +24,7 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-phantom-dark">
+    <main className="min-h-screen bg-pump-dark">
       <Header />
       {connected && publicKey ? (
         <WalletDashboard />
@@ -36,4 +36,8 @@ export default function Home() {
     </main>
   )
 }
+
+
+
+
 

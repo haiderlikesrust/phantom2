@@ -11,7 +11,7 @@ export default function NetworkSwitcher() {
       <select
         value={network}
         onChange={(e) => switchNetwork(e.target.value as Network)}
-        className="px-3 py-2 bg-phantom-dark border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:border-purple-500"
+        className="px-3 py-2 bg-pump-dark border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:border-pump-green"
       >
         <option value="mainnet-beta">Mainnet</option>
         <option value="devnet">Devnet</option>
@@ -20,4 +20,8 @@ export default function NetworkSwitcher() {
     </div>
   )
 }
+
+
+
+
 

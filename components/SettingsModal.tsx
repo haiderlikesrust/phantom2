@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { useWallet } from '@/contexts/WalletContext'
 import { Network } from '@/contexts/WalletContext'
 import NetworkSwitcher from './NetworkSwitcher'
@@ -23,7 +24,7 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
 
   const handleExportSeedPhrase = () => {
     try {
-      const storedSeedPhrase = localStorage.getItem('phantom_wallet_seed_phrase')
+      const storedSeedPhrase = localStorage.getItem('pumppocket_seed_phrase')
       if (!storedSeedPhrase) {
         setError('No recovery phrase found in storage')
         return
@@ -71,7 +72,7 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
     const url = URL.createObjectURL(dataBlob)
     const link = document.createElement('a')
     link.href = url
-    link.download = `phantom-transactions-${Date.now()}.json`
+    link.download = `pumppocket-transactions-${Date.now()}.json`
     link.click()
     URL.revokeObjectURL(url)
   }
@@ -85,7 +86,7 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-      <div className="bg-phantom-card rounded-2xl p-6 max-w-md w-full border border-gray-800">
+      <div className="bg-pump-card rounded-2xl p-6 max-w-md w-full border border-gray-800">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-white">Settings</h2>
           <button
@@ -108,7 +109,7 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
             onClick={() => setActiveTab('wallet')}
             className={`flex-1 py-2 px-4 text-sm font-medium transition-colors ${
               activeTab === 'wallet'
-                ? 'text-purple-400 border-b-2 border-purple-400'
+                ? 'text-pump-green border-b-2 border-pump-green'
                 : 'text-gray-400 hover:text-gray-300'
             }`}
           >
@@ -118,7 +119,7 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
             onClick={() => setActiveTab('security')}
             className={`flex-1 py-2 px-4 text-sm font-medium transition-colors ${
               activeTab === 'security'
-                ? 'text-purple-400 border-b-2 border-purple-400'
+                ? 'text-pump-green border-b-2 border-pump-green'
                 : 'text-gray-400 hover:text-gray-300'
             }`}
           >
@@ -128,7 +129,7 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
             onClick={() => setActiveTab('advanced')}
             className={`flex-1 py-2 px-4 text-sm font-medium transition-colors ${
               activeTab === 'advanced'
-                ? 'text-purple-400 border-b-2 border-purple-400'
+                ? 'text-pump-green border-b-2 border-pump-green'
                 : 'text-gray-400 hover:text-gray-300'
             }`}
           >
@@ -144,7 +145,7 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
               <div>
                 <label className="block text-sm text-gray-400 mb-2">Wallet Address</label>
                 <div className="flex items-center space-x-2">
-                  <div className="flex-1 px-4 py-3 bg-phantom-dark border border-gray-700 rounded-lg text-white text-sm break-all">
+                  <div className="flex-1 px-4 py-3 bg-pump-dark border border-gray-700 rounded-lg text-white text-sm break-all">
                     {publicKey?.toBase58()}
                   </div>
                   <button
@@ -163,7 +164,7 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
               {/* Balance */}
               <div>
                 <label className="block text-sm text-gray-400 mb-2">Balance</label>
-                <div className="px-4 py-3 bg-phantom-dark border border-gray-700 rounded-lg text-white text-sm">
+                <div className="px-4 py-3 bg-pump-dark border border-gray-700 rounded-lg text-white text-sm">
                   {balance?.toFixed(4) || '0'} SOL
                 </div>
               </div>
@@ -171,12 +172,12 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
               {/* Transaction Count */}
               <div>
                 <label className="block text-sm text-gray-400 mb-2">Transaction History</label>
-                <div className="flex items-center justify-between px-4 py-3 bg-phantom-dark border border-gray-700 rounded-lg">
+                <div className="flex items-center justify-between px-4 py-3 bg-pump-dark border border-gray-700 rounded-lg">
                   <span className="text-white text-sm">{transactions.length} transactions</span>
                   {transactions.length > 0 && (
                     <button
                       onClick={exportTransactions}
-                      className="text-purple-400 hover:text-purple-300 text-sm transition-colors"
+                      className="text-pump-green hover:text-pump-green300 text-sm transition-colors"
                     >
                       Export
                     </button>
@@ -207,7 +208,7 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
                 ) : (
                   <div>
                     <label className="block text-sm text-gray-400 mb-2">Your Recovery Phrase</label>
-                    <div className="bg-phantom-dark rounded-lg p-4 border border-gray-700 mb-3">
+                    <div className="bg-pump-dark rounded-lg p-4 border border-gray-700 mb-3">
                       <div className="grid grid-cols-3 gap-2">
                         {seedPhrase.split(' ').map((word, index) => (
                           <div key={index} className="flex items-center space-x-2">
@@ -260,7 +261,7 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
                   <div>
                     <label className="block text-sm text-gray-400 mb-2">Your Private Key</label>
                     <div className="flex items-center space-x-2 mb-3">
-                      <div className="flex-1 px-4 py-3 bg-phantom-dark border border-red-500/30 rounded-lg text-white text-sm break-all">
+                      <div className="flex-1 px-4 py-3 bg-pump-dark border border-red-500/30 rounded-lg text-white text-sm break-all">
                         {privateKey}
                       </div>
                       <button
@@ -309,16 +310,26 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
 
               <div>
                 <label className="block text-sm text-gray-400 mb-2">RPC Endpoint</label>
-                <div className="px-4 py-3 bg-phantom-dark border border-gray-700 rounded-lg text-white text-sm break-all">
+                <div className="px-4 py-3 bg-pump-dark border border-gray-700 rounded-lg text-white text-sm break-all">
                   https://api.mainnet-beta.solana.com
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm text-gray-400 mb-2">App Version</label>
-                <div className="px-4 py-3 bg-phantom-dark border border-gray-700 rounded-lg text-white text-sm">
-                  Phantom v2.0.0
+                <div className="px-4 py-3 bg-pump-dark border border-gray-700 rounded-lg text-white text-sm">
+                  PumpPocket v2.0.0
                 </div>
+              </div>
+
+              <div className="pt-4">
+                <Link
+                  href="/about"
+                  onClick={onClose}
+                  className="block w-full px-4 py-3 bg-pump-green hover:bg-pump-green/90 rounded-lg text-black font-bold text-center transition-colors"
+                >
+                  Learn About PumpPocket
+                </Link>
               </div>
 
               <div className="pt-4 border-t border-gray-700">
@@ -352,4 +363,8 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
     </div>
   )
 }
+
+
+
+
 
